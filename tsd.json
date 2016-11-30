@@ -1,0 +1,36 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "src/ts/tools/typings",
+  "bundle": "src/ts/tools/typings/tsd.d.ts",
+  "installed": {
+    "node/node.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "q/Q.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "angularjs/angular.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "bootstrap/bootstrap.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "del/del.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "modernizr/modernizr.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    },
+    "browser-sync/browser-sync.d.ts": {
+      "commit": "dbe375ff1a30b3750e1ecd8e60d2e51bea91bf28"
+    }
+  }
+}
