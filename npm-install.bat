@@ -1,3 +1,5 @@
+npm list -g --depth=0
+
 npm install typescript -g
 npm install tsd@next -g
 npm install bower -g
