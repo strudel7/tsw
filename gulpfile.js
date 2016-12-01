@@ -1,6 +1,7 @@
 'use strict';
 
 let gulp = require('gulp'),
+    util = require('gulp-util'),
     debug = require('gulp-debug'),
     inject = require('gulp-inject'),
     tsc = require('gulp-typescript'),
@@ -15,9 +16,9 @@ let gulp = require('gulp'),
 let config = new Config();
 
 // ------------------------------------------------------------------------------------------------
-// Clean
+// Clean-Transpiled-Output
 // ------------------------------------------------------------------------------------------------
-gulp.task('clean-transpile', function() {
+gulp.task('clean-transpile-output', function() {
   var typeScriptGenFiles = [ config.tsOutputPath,                      // path to generated JS files
                              config.srcTypeScript + '**/*.js',         // path to all JS files auto gen'd by editor
                              config.srcTypeScript + '**/*.js.map' ];   // path to all sourcemap files auto gen'd by editor
@@ -28,9 +29,22 @@ gulp.task('clean-transpile', function() {
 });
 
 // ------------------------------------------------------------------------------------------------
-// TypeScript Lint
+// Code Quality: JavaScript Hint and Style
 // ------------------------------------------------------------------------------------------------
-gulp.task('lint', function() {
+gulp.task('js-code-quality', function() {
+    return gulp.src([
+                 './src/**/*.js',
+                 './*.js'
+                ])
+                .pipe(jscs())
+                .pipe(jshint())
+                .pipe(jshint.reporter('jshint-stylish'), { verbose: true });
+});
+
+// ------------------------------------------------------------------------------------------------
+// Code Quality: TypeScript Lint
+// ------------------------------------------------------------------------------------------------
+gulp.task('ts-code-quality', function() {
     return gulp.src(config.allTypeScript)
                .pipe(tslint())
                .pipe(tslint.report('prose'));
@@ -77,6 +91,24 @@ gulp.task('browser-sync', function() {
 gulp.task('browser-watch', ['browser-sync'], function() {
     gulp.watch("*.html").on('change', bs.reload);
 });
+
+// ------------------------------------------------------------------------------------------------
+// Build Utility Functions
+// ------------------------------------------------------------------------------------------------
+let log = (message) => {
+    if (typeof(message) !== 'object') {
+        util.log(util.colors.blue(message));
+        return;
+    }
+
+    for(let item in message) {
+        if (!message.hasOwnProperty(item)) {
+            continue;
+        }
+
+        log(message[item]);
+    }
+}
 
 // ------------------------------------------------------------------------------------------------
 // Default

@@ -1,5 +1,3 @@
-npm list -g --depth=0
-
 npm install typescript -g
 npm install tsd@next -g
 npm install bower -g
@@ -7,19 +5,29 @@ npm install gulp -g
 npm install growl -g
 npm install browser-sync -g
 npm install del -g
+npm install jshint -g
 
+npm list -g --depth=0
+
+npm install q --save
+npm install del --save
+
+npm install browser-sync --save-dev
+npm install bower --save-dev
+npm install jshint --save-dev
+npm install jshint-stylish --save-dev
 npm install tslint --save-dev
+
 npm install gulp --save-dev
 npm install gulp-debug --save-dev
+npm install gulp-util --save-dev
 npm install gulp-inject --save-dev
 npm install gulp-sourcemaps --save-dev
 npm install gulp-tslint --save-dev
 npm install gulp-typescript --save-dev
 npm install gulp-rimraf --save-dev
-npm install q --save
-npm install del --save
-npm install browser-sync --save-dev
-npm install bower --save-dev
+npm install gulp-jshint --save-dev
+npm install gulp-jscs --save-dev
 
 bower install jquery --save
 bower install angular --save
