@@ -17,6 +17,7 @@
     "gulp-inject": "^4.1.0",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
+    "gulp-load-plugins": "^1.4.0",
     "gulp-print": "^2.0.1",
     "gulp-rimraf": "^0.2.1",
     "gulp-sourcemaps": "^1.9.1",

@@ -1,23 +1,13 @@
 'use strict';
 
 let gulp = require('gulp'),
-    gp = gulp.p = {
-            gif: require('gulp-if'),
-            util: require('gulp-util'),
-            debug: require('gulp-debug'),
-            prt: require('gulp-print'),
-            inject: require('gulp-inject'),
-            tsc: require('gulp-typescript'),
-            tslint: require('gulp-tslint'),
-            jshint: require('gulp-jshint'),
-            jscs: require('gulp-jscs'),
-            sourcemaps: require('gulp-sourcemaps'),
-            rimraf: require('gulp-rimraf'),
-            browserSync: require('browser-sync').create(),
-            yargs:require('yargs').argv
-        };
+    gp = gulp.p = require('gulp-load-plugins')({ lazy: true });
 
+gulp.p.yargs = require('yargs').argv;
 
+// ------------------------------------------------------------------------------------------------
+// Configuration state
+// ------------------------------------------------------------------------------------------------
 var GulpConfig = (function() {
     function GulpConfig() {
         this.debug = ((typeof(gp.yargs.verbose) === 'undefined') ? gp.yargs.verbose : false);
@@ -48,4 +38,32 @@ var GulpConfig = (function() {
 })();
 
 gulp.config = (new GulpConfig());
+
+// ------------------------------------------------------------------------------------------------
+// Utility Functions
+// ------------------------------------------------------------------------------------------------
+gulp.fn = { 
+    src: function(blob, options) {
+            return gulp.src(blob, options)
+                       .pipe(gp.if(gulp.config.debug, gp.print()));
+    },
+
+    log: function(message) {
+        let util = gp.util;
+
+        if (typeof(message) !== 'object') {
+            util.log(util.colors.blue(message));
+            return;
+        }
+
+        for(let item in message) {
+            if (!message.hasOwnProperty(item)) {
+                continue;
+            }
+
+            util.log(util.colors.blue((item + ': ' + message[item])));
+        }
+    }
+};
+
 module.exports = gulp;

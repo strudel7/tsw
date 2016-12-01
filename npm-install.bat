@@ -21,6 +21,7 @@ npm install --save-dev jshint-stylish
 npm install --save-dev tslint
 
 npm install --save-dev gulp
+npm install --save-dev gulp-load-plugins
 npm install --save-dev gulp-if
 npm install --save-dev gulp-debug
 npm install --save-dev gulp-print

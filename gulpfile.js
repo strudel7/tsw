@@ -1,13 +1,14 @@
 'use strict';
 
-let gulp = require('./gulp-func'),
+let gulp = require('./gulpfile.configure'),
+    log = gulp.fn.log,
     gp = gulp.p;
 
 // ------------------------------------------------------------------------------------------------
 // Code Quality: JavaScript Hint and Style
 // ------------------------------------------------------------------------------------------------
 gulp.task('jcq-js-code-quality', function() {
-    gulp.p.util.log('Running code quality reporting for JavaScript using JSCS and JSHint ...');
+    log('Running code quality reporting for JavaScript using JSCS and JSHint ...');
     
     return gulp.fn.src(gulp.config.directoryExpressions.javaScript)
                   .pipe(gp.jscs())
