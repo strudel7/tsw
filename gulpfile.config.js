@@ -1,11 +1,28 @@
 'use strict';
 
-var GulpConfig = (function() {
-    function GulpConfig() {
-        let directories = this.directories = {
+let gulp = require('gulp'),
+    gp = gulp.p = {
+            gif: require('gulp-if'),
+            util: require('gulp-util'),
+            debug: require('gulp-debug'),
+            prt: require('gulp-print'),
+            inject: require('gulp-inject'),
+            tsc: require('gulp-typescript'),
+            tslint: require('gulp-tslint'),
+            jshint: require('gulp-jshint'),
+            jscs: require('gulp-jscs'),
+            sourcemaps: require('gulp-sourcemaps'),
+            rimraf: require('gulp-rimraf'),
+            browserSync: require('browser-sync').create(),
+            yargs:require('yargs').argv
         };
 
-        let directoryExpressions = this.directoryExpressions = {
+
+var GulpConfig = (function() {
+    function GulpConfig() {
+        this.debug = ((typeof(gp.yargs.verbose) === 'undefined') ? gp.yargs.verbose : false);
+
+        let directories = this.directories = {
         };
 
         directories.root = './';
@@ -13,6 +30,9 @@ var GulpConfig = (function() {
         directories.tools = (directories.src + 'tools/');
         directories.typings = (directories.tools + 'typings/');
         directories.transpileOutput = (directories.src + 'js/');
+
+        let directoryExpressions = this.directoryExpressions = {
+        };
 
         directoryExpressions.javaScript = [ (directories.srcDirectory + '**/*.js'), (directories.root + '*.js') ];
         directoryExpressions.typeScript = [ (directories.srcDirectory + '**/*.ts'), (directories.srcDirectory + '**/*.tsx') ];
@@ -27,4 +47,5 @@ var GulpConfig = (function() {
     return GulpConfig;
 })();
 
-module.exports = (new GulpConfig());
+gulp.config = (new GulpConfig());
+module.exports = gulp;

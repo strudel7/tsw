@@ -1,74 +1,65 @@
 'use strict';
 
-let gulp = require('gulp'),
-    util = require('gulp-util'),
-    debug = require('gulp-debug'),
-    inject = require('gulp-inject'),
-    tsc = require('gulp-typescript'),
-    tslint = require('gulp-tslint'),
-    jshint = require('gulp-jshint'),
-    jscs = require('gulp-jscs'),
-    sourcemaps = require('gulp-sourcemaps'),
-    rimraf = require('gulp-rimraf'),
-    browserSync = require('browser-sync').create();
-
-let gulpConfig = require('./gulpfile.config');
+let gulp = require('./gulp-func'),
+    gp = gulp.p;
 
 // ------------------------------------------------------------------------------------------------
 // Code Quality: JavaScript Hint and Style
 // ------------------------------------------------------------------------------------------------
-gulp.task('js-code-quality', function() {
-    return gulp.src(gulpConfig.directoryExpressions.javaScript)
-                .pipe(jscs())
-                .pipe(jshint())
-                .pipe(jshint.reporter('jshint-stylish'), { verbose: true });
+gulp.task('jcq-js-code-quality', function() {
+    gulp.p.util.log('Running code quality reporting for JavaScript using JSCS and JSHint ...');
+    
+    return gulp.fn.src(gulp.config.directoryExpressions.javaScript)
+                  .pipe(gp.jscs())
+                  .pipe(gp.jshint())
+                  .pipe(gp.jshint.reporter('jshint-stylish'), { verbose: true })
+                  .pipe(gp.jshint.reporter('fail'));
 });
 
 // ------------------------------------------------------------------------------------------------
 // Code Quality: TypeScript Lint
 // ------------------------------------------------------------------------------------------------
-gulp.task('ts-code-quality', function() {
-    return gulp.src(gulpConfig.directoryExpressions.typeScript)
-               .pipe(tslint())
-               .pipe(tslint.report('prose'));
+gulp.task('tcq-ts-code-quality', function() {
+    return gulp.src(gulp.config.directoryExpressions.typeScript)
+               .pipe(gp.tslint())
+               .pipe(gp.tslint.report('prose'));
 });
 
 // ------------------------------------------------------------------------------------------------
 // Clean-Transpiled-Output
 // ------------------------------------------------------------------------------------------------
 gulp.task('clean-transpile-output', function() {
-  var targetFiles = [ gulpConfig.directories.transpileOutput ];   
+  var targetFiles = [ gulp.config.directories.transpileOutput ];   
 
-  return gulp.src(targetFiles, {read: false})
-             .pipe(debug())
-             .pipe(rimraf());
+  return gulp.fn.src(targetFiles, {read: false})
+             .pipe(gp.rimraf());
 });
 
 // ------------------------------------------------------------------------------------------------
 // Transpile (TS --> JS)
 // ------------------------------------------------------------------------------------------------
-gulp.task('transpile', ['clean-transpile'], function() {
-    //let sourceTsFiles = [ gulpConfig.allTypeScript,                // Path to typescript files
-    //                      gulpConfig.libraryTypeScriptDefinitions, // Reference to library .d.ts files
-    //                     gulpConfig.appTypeScriptReferences];     // Reference to app.d.ts files
+gulp.task('transpile', ['clean-transpile-output'], function() {
+    //let sourceTsFiles = [ gulp.config.allTypeScript,                // Path to typescript files
+    //                      gulp.config.libraryTypeScriptDefinitions, // Reference to library .d.ts files
+    //                     gulp.config.appTypeScriptReferences];     // Reference to app.d.ts files
 
-    let typeScript = gulpConfig.directoryExpressions.typeScript;
+    let typeScript = gulp.config.directoryExpressions.typeScript,
+        outputDir = gulp.config.directories.transpileOutput;
 
-	let tsResult = gulp.src(typeScript)
-                       .pipe(debug())
-                       .pipe(sourcemaps.init())
-                       .pipe(tsc({
+	let tsResult = gulp.fn.src(typeScript)
+                       .pipe(gp.sourcemaps.init())
+                       .pipe(gp.tsc({
                            target: 'ES5',
                            jsx: 'react',
                            declarationFiles: false,
                            noExternalResolve: true
                        }));
 
-	tsResult.dts.pipe(gulp.dest(gulpConfig.transpileOutput));
+	tsResult.dts.pipe(gulp.dest(outputDir));
 
 	return tsResult.js
-                   .pipe(sourcemaps.write('.'))
-                   .pipe(gulp.dest(gulpConfig.transpileOutput));
+                   .pipe(gp.sourcemaps.write('.'))
+                   .pipe(gulp.dest(outputDir));
 });
 
 
@@ -76,7 +67,7 @@ gulp.task('transpile', ['clean-transpile'], function() {
 // Browser-Sync
 // ------------------------------------------------------------------------------------------------
 gulp.task('browser-sync', function() {
-    browserSync.init({
+    gp.browserSync.init({
         server: {
             baseDir: './',
             files: [ '*.html', 'css/*.css' ]
@@ -85,26 +76,8 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('browser-watch', ['browser-sync'], function() {
-    gulp.watch('*.html').on('change', browserSync.reload);
+    gulp.watch('*.html').on('change', gp.browserSync.reload);
 });
-
-// ------------------------------------------------------------------------------------------------
-// Build Utility Functions
-// ------------------------------------------------------------------------------------------------
-let log = (message) => {
-    if (typeof(message) !== 'object') {
-        util.log(util.colors.blue(message));
-        return;
-    }
-
-    for(let item in message) {
-        if (!message.hasOwnProperty(item)) {
-            continue;
-        }
-
-        log(message[item]);
-    }
-};
 
 // ------------------------------------------------------------------------------------------------
 // Default
