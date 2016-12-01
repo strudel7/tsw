@@ -15,19 +15,6 @@ let gulp = require('gulp'),
 let gulpConfig = require('./gulpfile.config');
 
 // ------------------------------------------------------------------------------------------------
-// Clean-Transpiled-Output
-// ------------------------------------------------------------------------------------------------
-gulp.task('clean-transpile-output', function() {
-  var typeScriptGenFiles = [ gulpConfig.tsOutputPath,                       
-                             gulpConfig.srcTypeScript + '**/*.js',         
-                             gulpConfig.srcTypeScript + '**/*.js.map' ];   
-
-  return gulp.src(typeScriptGenFiles, {read: false})
-             .pipe(debug())
-             .pipe(rimraf());
-});
-
-// ------------------------------------------------------------------------------------------------
 // Code Quality: JavaScript Hint and Style
 // ------------------------------------------------------------------------------------------------
 gulp.task('js-code-quality', function() {
@@ -41,20 +28,33 @@ gulp.task('js-code-quality', function() {
 // Code Quality: TypeScript Lint
 // ------------------------------------------------------------------------------------------------
 gulp.task('ts-code-quality', function() {
-    return gulp.src(gulpConfig.allTypeScript)
+    return gulp.src(gulpConfig.directoryExpressions.typeScript)
                .pipe(tslint())
                .pipe(tslint.report('prose'));
+});
+
+// ------------------------------------------------------------------------------------------------
+// Clean-Transpiled-Output
+// ------------------------------------------------------------------------------------------------
+gulp.task('clean-transpile-output', function() {
+  var targetFiles = [ gulpConfig.directories.transpileOutput ];   
+
+  return gulp.src(targetFiles, {read: false})
+             .pipe(debug())
+             .pipe(rimraf());
 });
 
 // ------------------------------------------------------------------------------------------------
 // Transpile (TS --> JS)
 // ------------------------------------------------------------------------------------------------
 gulp.task('transpile', ['clean-transpile'], function() {
-    let sourceTsFiles = [ gulpConfig.allTypeScript,                // Path to typescript files
-                          gulpConfig.libraryTypeScriptDefinitions, // Reference to library .d.ts files
-                          gulpConfig.appTypeScriptReferences];     // Reference to app.d.ts files
+    //let sourceTsFiles = [ gulpConfig.allTypeScript,                // Path to typescript files
+    //                      gulpConfig.libraryTypeScriptDefinitions, // Reference to library .d.ts files
+    //                     gulpConfig.appTypeScriptReferences];     // Reference to app.d.ts files
 
-	let tsResult = gulp.src(sourceTsFiles)
+    let typeScript = gulpConfig.directoryExpressions.typeScript;
+
+	let tsResult = gulp.src(typeScript)
                        .pipe(debug())
                        .pipe(sourcemaps.init())
                        .pipe(tsc({
@@ -64,11 +64,11 @@ gulp.task('transpile', ['clean-transpile'], function() {
                            noExternalResolve: true
                        }));
 
-        tsResult.dts.pipe(gulp.dest(gulpConfig.tsOutputPath));
+	tsResult.dts.pipe(gulp.dest(gulpConfig.transpileOutput));
 
-        return tsResult.js
-                       .pipe(sourcemaps.write('.'))
-                       .pipe(gulp.dest(gulpConfig.tsOutputPath));
+	return tsResult.js
+                   .pipe(sourcemaps.write('.'))
+                   .pipe(gulp.dest(gulpConfig.transpileOutput));
 });
 
 
