@@ -5,8 +5,6 @@ class Customer {
         this.name = name;
     }
  
-
- 
     getName() {
         return this.name;
     }

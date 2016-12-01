@@ -10,7 +10,7 @@ gulp.p.yargs = require('yargs').argv;
 // ------------------------------------------------------------------------------------------------
 var GulpConfig = (function() {
     function GulpConfig() {
-        this.debug = ((typeof(gp.yargs.verbose) === 'undefined') ? gp.yargs.verbose : false);
+        this.debug = ((typeof(gp.yargs.verbose) === 'undefined') ? false : true);
 
         let directories = this.directories = {
         };
@@ -19,14 +19,14 @@ var GulpConfig = (function() {
         directories.src = (directories.root + 'src/');
         directories.tools = (directories.src + 'tools/');
         directories.typings = (directories.tools + 'typings/');
-        directories.transpileOutput = (directories.src + 'js/');
+        directories.transpileOutput = directories.js = (directories.src + 'js/');;
+        directories.ts = (directories.src + 'ts/');;
 
         let directoryExpressions = this.directoryExpressions = {
         };
 
-        directoryExpressions.javaScript = [ (directories.srcDirectory + '**/*.js'), (directories.root + '*.js') ];
-        directoryExpressions.typeScript = [ (directories.srcDirectory + '**/*.ts'), (directories.srcDirectory + '**/*.tsx') ];
-
+        directoryExpressions.javaScript = [ (directories.js + '**/*.js'), (directories.root + '*.js') ];
+        directoryExpressions.typeScript = [ (directories.ts + '**/*.ts'), (directories.ts + '**/*.tsx') ];
 
 
         //directories.typings = directories.srcDirectory + '/tools/typings/';
@@ -45,7 +45,7 @@ gulp.config = (new GulpConfig());
 gulp.fn = { 
     src: function(blob, options) {
             return gulp.src(blob, options)
-                       .pipe(gp.if(gulp.config.debug, gp.print()));
+                       .pipe(gp.if(gulp.config.debug, gp.debug()));
     },
 
     log: function(message) {

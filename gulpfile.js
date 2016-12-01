@@ -29,7 +29,7 @@ gulp.task('tcq-ts-code-quality', function() {
 // ------------------------------------------------------------------------------------------------
 // Clean-Transpiled-Output
 // ------------------------------------------------------------------------------------------------
-gulp.task('clean-transpile-output', function() {
+gulp.task('clean', function() {
   var targetFiles = [ gulp.config.directories.transpileOutput ];   
 
   return gulp.fn.src(targetFiles, {read: false})
@@ -39,28 +39,36 @@ gulp.task('clean-transpile-output', function() {
 // ------------------------------------------------------------------------------------------------
 // Transpile (TS --> JS)
 // ------------------------------------------------------------------------------------------------
-gulp.task('transpile', ['clean-transpile-output'], function() {
+gulp.task('transpile', ['clean'], function() {
     //let sourceTsFiles = [ gulp.config.allTypeScript,                // Path to typescript files
     //                      gulp.config.libraryTypeScriptDefinitions, // Reference to library .d.ts files
     //                     gulp.config.appTypeScriptReferences];     // Reference to app.d.ts files
 
-    let typeScript = gulp.config.directoryExpressions.typeScript,
-        outputDir = gulp.config.directories.transpileOutput;
+    let tsFileExpressions = gulp.config.directoryExpressions.typeScript,
+        transpileOutput = gulp.config.directories.transpileOutput;
 
-	let tsResult = gulp.fn.src(typeScript)
-                       .pipe(gp.sourcemaps.init())
-                       .pipe(gp.tsc({
-                           target: 'ES5',
-                           jsx: 'react',
-                           declarationFiles: false,
-                           noExternalResolve: true
-                       }));
+    let compilerOptions = require('./tsconfig.json').compilerOptions;
+    log(JSON.stringify(compilerOptions));
 
-	tsResult.dts.pipe(gulp.dest(outputDir));
+    let tsResult = gulp.fn.src(tsFileExpressions)
+                          .pipe(gp.typescript(compilerOptions));
 
-	return tsResult.js
-                   .pipe(gp.sourcemaps.write('.'))
-                   .pipe(gulp.dest(outputDir));
+	return tsResult.js.pipe(gulp.dest(transpileOutput));
+
+	// let tsResult = gulp.fn.src(typeScript)
+    //                    .pipe(gp.sourcemaps.init())
+    //                    .pipe(gp.typescript({
+    //                        target: 'ES5',
+    //                        jsx: 'react',
+    //                        declarationFiles: false,
+    //                        noResolve: true
+    //                    }));
+
+	// tsResult.dts.pipe(gulp.dest(outputDir));
+
+	// return tsResult.js
+    //                .pipe(gp.sourcemaps.write('.'))
+    //                .pipe(gulp.dest(outputDir));
 });
 
 
