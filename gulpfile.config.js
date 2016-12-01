@@ -2,19 +2,29 @@
 
 var GulpConfig = (function() {
     function GulpConfig() {
-        this.src = './src/';
-        this.srcTypeScript = this.src + '';
+        let directories = this.directories = {
+        };
 
-        this.tsOutputPath = this.src + '/js';
-        this.allJavaScript = [this.src + '/js/**/*.js'];
-        this.allTypeScript = this.srcTypeScript + '/**/*.ts';
+        let directoryExpressions = this.directoryExpressions = {
+        };
 
-        this.typings = this.src + '/tools/typings/';
-        this.libraryTypeScriptDefinitions = this.typings + '**/*.ts';
-        this.appTypeScriptReferences = this.typings + 'typescriptApp.d.ts';
+        directories.root = './';
+        directories.src = (directories.root + 'src/');
+        directories.tools = (directories.src + 'tools/');
+        directories.typings = (directories.tools + 'typings/');
+        directories.transpileOutput = (directories.src + 'js/');
+
+        directoryExpressions.javaScript = [ (directories.srcDirectory + '**/*.js'), (directories.root + '*.js') ];
+        directoryExpressions.typeScript = [ (directories.srcDirectory + '**/*.ts'), (directories.srcDirectory + '**/*.tsx') ];
+
+
+
+        //directories.typings = directories.srcDirectory + '/tools/typings/';
+        //directories.libraryTypeScriptDefinitions = directories.typings + '**/*.ts';
+        //directories.appTypeScriptReferences = directories.typings + 'typescriptApp.d.ts';
     }
     
     return GulpConfig;
 })();
 
-module.exports = GulpConfig;
+module.exports = (new GulpConfig());
