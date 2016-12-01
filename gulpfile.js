@@ -6,22 +6,22 @@ let gulp = require('gulp'),
     inject = require('gulp-inject'),
     tsc = require('gulp-typescript'),
     tslint = require('gulp-tslint'),
+    jshint = require('gulp-jshint'),
+    jscs = require('gulp-jscs'),
     sourcemaps = require('gulp-sourcemaps'),
     rimraf = require('gulp-rimraf'),
-    browserSync = require('browser-sync').create(),
-    Config = require('./gulpfile.config');
+    browserSync = require('browser-sync').create();
 
-
-
-let config = new Config();
+let Config = require('./gulpfile.config'),
+    config = new Config();
 
 // ------------------------------------------------------------------------------------------------
 // Clean-Transpiled-Output
 // ------------------------------------------------------------------------------------------------
 gulp.task('clean-transpile-output', function() {
-  var typeScriptGenFiles = [ config.tsOutputPath,                      // path to generated JS files
-                             config.srcTypeScript + '**/*.js',         // path to all JS files auto gen'd by editor
-                             config.srcTypeScript + '**/*.js.map' ];   // path to all sourcemap files auto gen'd by editor
+  var typeScriptGenFiles = [ config.tsOutputPath,                       
+                             config.srcTypeScript + '**/*.js',         
+                             config.srcTypeScript + '**/*.js.map' ];   
 
   return gulp.src(typeScriptGenFiles, {read: false})
              .pipe(debug())
@@ -80,16 +80,16 @@ gulp.task('transpile', ['clean-transpile'], function() {
 // Browser-Sync
 // ------------------------------------------------------------------------------------------------
 gulp.task('browser-sync', function() {
-    bs.init({
+    browserSync.init({
         server: {
-            baseDir: "./",
-            files: ["*.html", "css/*.css"]
+            baseDir: './',
+            files: [ '*.html', 'css/*.css' ]
         }
     });
 });
 
 gulp.task('browser-watch', ['browser-sync'], function() {
-    gulp.watch("*.html").on('change', bs.reload);
+    gulp.watch('*.html').on('change', browserSync.reload);
 });
 
 // ------------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ let log = (message) => {
 
         log(message[item]);
     }
-}
+};
 
 // ------------------------------------------------------------------------------------------------
 // Default
