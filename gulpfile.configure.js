@@ -28,6 +28,7 @@ var GulpConfig = (function() {
         directoryExpressions.javaScript = [ (directories.js + '**/*.js'), (directories.root + '*.js') ];
         directoryExpressions.typeScript = [ (directories.ts + '**/*.ts'), (directories.ts + '**/*.tsx') ];
 
+        this.compilerOptions = require('./tsconfig.json').compilerOptions;
 
         //directories.typings = directories.srcDirectory + '/tools/typings/';
         //directories.libraryTypeScriptDefinitions = directories.typings + '**/*.ts';

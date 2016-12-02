@@ -47,13 +47,14 @@ gulp.task('transpile', ['clean'], function() {
     let tsFileExpressions = gulp.config.directoryExpressions.typeScript,
         transpileOutput = gulp.config.directories.transpileOutput;
 
-    let compilerOptions = require('./tsconfig.json').compilerOptions;
-    log(JSON.stringify(compilerOptions));
-
+    let compilerOptions = gulp.config.compilerOptions;
     let tsResult = gulp.fn.src(tsFileExpressions)
+                          .pipe(gp.sourcemaps.init())
                           .pipe(gp.typescript(compilerOptions));
 
-	return tsResult.js.pipe(gulp.dest(transpileOutput));
+	return tsResult.js
+                   .pipe(gp.sourcemaps.write('.'))
+                   .pipe(gulp.dest(transpileOutput));
 
 	// let tsResult = gulp.fn.src(typeScript)
     //                    .pipe(gp.sourcemaps.init())
