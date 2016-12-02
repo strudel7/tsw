@@ -13,12 +13,16 @@ npm list -g --depth=0
 npm install --save q 
 npm install --save del 
 npm install --save yargs
+npm install --save underscore
+npm install --save express
+npm install --save body-parser
 
 npm install --save-dev browser-sync 
 npm install --save-dev bower
 npm install --save-dev jshint
 npm install --save-dev jshint-stylish
 npm install --save-dev tslint
+npm install --save-dev underscore
 
 npm install --save-dev gulp
 npm install --save-dev gulp-load-plugins
@@ -49,3 +53,6 @@ tsd install --save q
 tsd install --save modernizr
 tsd install --save bootstrap
 tsd install --save browser-sync
+tsd install --save underscore
+tsd install --save express
+tsd install --save body-parser
