@@ -1,11 +1,7 @@
-class Customer {
-    name: string;
+import * as base from './entityBase'
 
-    constructor(name: string) {
-        this.name = name;
-    }
- 
-    getName() {
-        return this.name;
+export class Customer extends base.EntityBase {
+    constructor(key: string) {
+        super(key);
     }
 }

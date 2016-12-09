@@ -1,0 +1,12 @@
+{
+  "path": "src/ts/tools/typings",
+  "bundle": "src/ts/tools/typings/tsd.d.ts",
+
+  "dependencies": {
+    "body-parser": "registry:npm/body-parser#1.15.2+20161116154925",
+    "del": "registry:npm/del#2.2.0+20160416211512",
+    "express": "registry:npm/express#4.14.0+20160925001530",
+    "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
+    "lodash": "registry:npm/lodash#4.0.0+20161015015725"
+  }
+}
