@@ -1,7 +1,5 @@
 {
-  "path": "src/ts/tools/typings",
-  "bundle": "src/ts/tools/typings/tsd.d.ts",
-
+  "resolution": "src/tools/typings",
   "dependencies": {
     "body-parser": "registry:npm/body-parser#1.15.2+20161116154925",
     "del": "registry:npm/del#2.2.0+20160416211512",
