@@ -48,16 +48,29 @@ bower install --save q
 bower install --save modernizr
 bower install --save bootstrap
 
-typings install --save node
-typings install --save gulp
-typings install --save del
-typings install --save jquery
-typings install --save angular
-typings install --save q
-typings install --save modernizr
-typings install --save bootstrap
-typings install --save browser-sync
-typings install --save underscore
-typings install --save lodash
-typings install --save express
-typings install --save body-parser
+npm install --save @types/node
+npm install --save @types/gulp
+npm install --save @types/del
+npm install --save @types/jquery
+npm install --save @types/angular
+npm install --save @types/modernizr
+npm install --save @types/bootstrap
+npm install --save @types/browser-sync
+npm install --save @types/lodash
+npm install --save @types/underscore
+npm install --save @types/express
+npm install --save @types/body-parser
+
+REM typings install --save node
+REM typings install --save gulp
+REM typings install --save del
+REM typings install --save jquery
+REM typings install --save angular
+REM typings install --save q
+REM typings install --save modernizr
+REM typings install --save bootstrap
+REM typings install --save browser-sync
+REM typings install --save underscore
+REM typings install --save lodash
+REM typings install --save express
+REM typings install --save body-parser

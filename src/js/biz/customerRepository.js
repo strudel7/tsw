@@ -1,5 +1,5 @@
 "use strict";
-var collection = require('./customerCollection');
+var collection = require('./customer');
 var CustomerRepository = (function () {
     function CustomerRepository() {
         this.fetch = function (key) {

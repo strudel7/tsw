@@ -1,4 +1,4 @@
-import * as collection from './customerCollection'
+import * as collection from './customer'
 
 export class CustomerRepository {
     public fetch = (key: string) : collection.CustomerCollection => {
