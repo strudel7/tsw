@@ -32,6 +32,10 @@ journal
 # Ignore Web Storm #
 .idea
 
+# Transpiled source #
+###################
+/src/js
+
 # Compiled source #
 ###################
 *.com
