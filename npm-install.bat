@@ -7,6 +7,7 @@ npm install -g browser-sync
 npm install -g del
 npm install -g jshint
 npm install -g yargs
+npm install -g concurrently
 
 npm list -g --depth=0
 
